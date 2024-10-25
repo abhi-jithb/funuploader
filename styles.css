@@ -1,0 +1,139 @@
+/* Basic Styling */
+
+body {
+    font-family: "Rubik Wet Paint", system-ui;
+    font-weight: 400;
+    font-style: normal;
+    margin: 0;
+    padding: 0;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background-color: #f4f4f4;
+}
+
+h1, h2 {
+    margin: 0;
+    text-align: center;
+}
+
+/* Background Animation */
+.background-animation {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    z-index: -1;
+}
+
+.animated-title {
+    font-size: 4rem;
+    color: rgba(0, 0, 0, 0.2);
+    animation: titleMotion 3s infinite ease-in-out;
+}
+
+@keyframes titleMotion {
+    0% { transform: translateY(-10px); }
+    50% { transform: translateY(10px); }
+    100% { transform: translateY(-10px); }
+}
+
+/* Upload Section */
+.upload-section {
+    z-index: 1;
+    margin-top: 30px;
+    text-align: center;
+}
+
+.upload-btn {
+    background-color: #ff5722;
+    border: none;
+    padding: 15px 30px;
+    color: white;
+    font-size: 16px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.3s;
+}
+
+.upload-btn:hover {
+    background-color: #e64a19;
+    transform: scale(1.05);
+}
+
+input[type="file"] {
+    margin-bottom: 15px;
+}
+
+/* Photo Grid */
+.photo-grid {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 30px;
+}
+
+.photo-item {
+    position: relative;
+    width: 150px;
+    height: 150px;
+    overflow: hidden;
+}
+
+.photo-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 10px;
+    transition: transform 0.3s ease;
+}
+
+.photo-item img:hover {
+    transform: scale(1.1);
+}
+
+.emoji-reaction {
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+    font-size: 1.5rem;
+    cursor: pointer;
+    opacity: 0.8;
+    transition: transform 0.2s ease;
+}
+
+.emoji-reaction:hover {
+    transform: scale(1.2);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .upload-btn {
+        width: 100%;
+        font-size: 14px;
+    }
+    
+    .photo-item {
+        width: 120px;
+        height: 120px;
+    }
+}
+
+@media (max-width: 480px) {
+    .upload-btn {
+        font-size: 12px;
+    }
+    
+    .photo-item {
+        width: 100px;
+        height: 100px;
+    }
+}
