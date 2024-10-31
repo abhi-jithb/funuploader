@@ -1,63 +1,34 @@
-import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-app.js";
-import { getFirestore, collection, addDoc } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-firestore.js";
-import { getStorage, ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-storage.js";
-
-// Firebase configuration
-const firebaseConfig = {
-  apiKey: "AIzaSyAXIRAA_dO7R50QbrtNZW6vLTzWqZGqDCY",
-  authDomain: "picuploader-51d50.firebaseapp.com",
-  projectId: "picuploader-51d50",
-  storageBucket: "picuploader-51d50.appspot.com",
-  messagingSenderId: "353467371454",
-  appId: "1:353467371454:web:a2b72f6ff08f6e3c35f3ef",
-  measurementId: "G-Z4K0HSWYFG"
-};
-
-// Initialize Firebase
-const app = initializeApp(firebaseConfig);
-const db = getFirestore(app);
-const storage = getStorage(app);
-
 const photoInput = document.getElementById("photoInput");
 const uploadBtn = document.getElementById("uploadBtn");
 const photosDiv = document.getElementById("photos");
 
-uploadBtn.addEventListener("click", async () => {
-  const file = photoInput.files[0];
-  if (!file) return;
+uploadBtn.addEventListener("click", () => {
+    const file = photoInput.files[0];
+    if (!file) return;
 
-  // Create a storage reference
-  const storageRef = ref(storage, `photos/${file.name}`);
+    const reader = new FileReader();
 
-  // Upload file
-  await uploadBytes(storageRef, file);
+    reader.onload = function (event) {
+        // Display the uploaded image
+        displayPhoto(event.target.result);
+    };
 
-  // Get the image URL
-  const downloadURL = await getDownloadURL(storageRef);
-
-  // Add image URL to Firestore
-  await addDoc(collection(db, "photos"), {
-    url: downloadURL,
-    emoji: ""
-  });
-
-  // Display the uploaded image
-  displayPhoto(downloadURL);
+    reader.readAsDataURL(file);
 });
 
 // Function to display a photo
 function displayPhoto(url) {
-  const container = document.createElement("div");
-  container.classList.add("photo-container");
+    const container = document.createElement("div");
+    container.classList.add("photo-item");
 
-  const img = document.createElement("img");
-  img.src = url;
-  container.appendChild(img);
+    const img = document.createElement("img");
+    img.src = url;
+    container.appendChild(img);
 
-  const emojiDiv = document.createElement("div");
-  emojiDiv.classList.add("emoji");
-  emojiDiv.innerHTML = "😊";
-  container.appendChild(emojiDiv);
+    const emojiDiv = document.createElement("div");
+    emojiDiv.classList.add("emoji-reaction");
+    emojiDiv.innerHTML = "😊"; // Optional emoji
+    container.appendChild(emojiDiv);
 
-  photosDiv.appendChild(container);
+    photosDiv.appendChild(container);
 }
